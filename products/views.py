@@ -35,7 +35,7 @@ class ProductDetailView(LoginRequiredMixin, ProductViewMixin, DetailView):
 class ProductCreateView(
     LoginRequiredMixin, PermissionRequiredMixin, ProductViewMixin, CreateView
 ):
-    template_name = "products/add_product.html"
+    template_name = "products/product_form.html"
     permission_required = "products.add_product"
     success_url = reverse_lazy("products")
 
@@ -47,7 +47,7 @@ class ProductUpdateView(
     permission_required = "products.change_product"
 
     def get_success_url(self):
-        return reverse_lazy("product_detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy("product_detail", kwargs={"slug": self.object.slug})
 
 
 class ProductDeleteView(
