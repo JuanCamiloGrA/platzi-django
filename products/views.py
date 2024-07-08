@@ -21,7 +21,7 @@ class ProductViewMixin:
         return context
 
 
-class ProductListView(LoginRequiredMixin, ProductViewMixin, ListView):
+class ProductListView(ProductViewMixin, ListView):
     template_name = "products/product_list.html"
     context_object_name = "products"
     paginate_by = 10
