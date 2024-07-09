@@ -11,9 +11,10 @@
         <div class="col-md-4 mb-4">
             <div class="card h-100">
                 {% if product.image %}
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}"
+                    style="object-fit: cover; width: 100%; height: 60%;">
                 {% else %}
-                <img src="{% static 'images/default-product-img.svg' %}" class="card-img-top" alt="{{ product.name }}">
+                <img src="{% static 'images/default-product-img.svg' %}" class="img-fluid" alt="{{ product.name }}">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
@@ -21,6 +22,13 @@
                     <p class="card-text"><strong>Precio:</strong> ${{ product.price }}</p>
                     {% if product.available %}
                     <p class="text-success">Disponible</p>
+                    <form action="{% url 'add_product' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{ product.id }}">
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color: #8B4513; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">Agregar
+                            al carrito</button>
+                    </form>
                     {% else %}
                     <p class="text-danger">No disponible</p>
                     {% endif %}
@@ -29,19 +37,5 @@
         </div>
         {% endfor %}
     </div>
-
-    {% if is_paginated %}
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
-            {% endif %}
-            <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
-            {% if page_obj.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
 </div>
 {% endblock %}
