@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card rounded-4 shadow">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Detalles de la Orden</h3>
+                    <h5 class="ms-3">Cliente: {{order.user.username}}</h5>
+                    <h5 class="ms-3 mb-3">Fecha: {{order.order_date}}</h5>
+
+                    <h4 class="card-title font-bold">Artículos en tu Orden:</h4>
+                    
+                    <table class="table mt-5">
+                        <thead >
+                            <tr>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider ">
+                            {% for product in order.orderproduct_set.all %}
+                                <tr>
+                                    <td scope="row">{{ product.quantity }}</td>
+                                    <td>{{ product.product.name }}</td>
+                                    <td>${{ product.product.price }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center">No products in this order</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
