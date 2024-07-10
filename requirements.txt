@@ -1,3 +1,4 @@
 django==5.0.6
+djangorestframework==3.15.2
 pillow==10.4.0
 crispy-bootstrap5==2024.2

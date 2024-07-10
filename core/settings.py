@@ -46,6 +46,7 @@ PROJECT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "rest_framework",
     "crispy_forms",
     "crispy_bootstrap5",
 ]
@@ -151,3 +152,9 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "products"
 
 LOGOUT_REDIRECT_URL = "products"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+    ],
+}

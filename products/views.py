@@ -1,14 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
-    DetailView,
     CreateView,
-    UpdateView,
-    DeleteView,
 )
 from .models import Product
 from .forms import ProductForm
+from .serializers import ProductSerializer
 
 
 class ProductViewMixin:
@@ -26,11 +26,6 @@ class ProductListView(ProductViewMixin, ListView):
     context_object_name = "products"
 
 
-class ProductDetailView(LoginRequiredMixin, ProductViewMixin, DetailView):
-    template_name = "products/product_detail.html"
-    context_object_name = "product"
-
-
 class ProductCreateView(
     LoginRequiredMixin, PermissionRequiredMixin, ProductViewMixin, CreateView
 ):
@@ -39,19 +34,12 @@ class ProductCreateView(
     success_url = reverse_lazy("products")
 
 
-class ProductUpdateView(
-    LoginRequiredMixin, PermissionRequiredMixin, ProductViewMixin, UpdateView
-):
-    template_name = "products/product_form.html"
-    permission_required = "products.change_product"
+class ProductListAPI(APIView):
 
-    def get_success_url(self):
-        return reverse_lazy("product_detail", kwargs={"slug": self.object.slug})
+    authentication_classes = []
+    permission_classes = []
 
-
-class ProductDeleteView(
-    LoginRequiredMixin, PermissionRequiredMixin, ProductViewMixin, DeleteView
-):
-    template_name = "products/product_confirm_delete.html"
-    permission_required = "products.delete_product"
-    success_url = reverse_lazy("product_list")
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
