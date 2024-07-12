@@ -10,8 +10,12 @@ class Product(models.Model):
     description = models.TextField(max_length=255, verbose_name="Descripción")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio")
     available = models.BooleanField(default=True, verbose_name="Disponible")
-    image = models.ImageField(upload_to="logos", null=True, blank=True, verbose_name="Imagen")
-    slug = models.SlugField(max_length=255, unique=True, blank=True, verbose_name="Slug")
+    image = models.ImageField(
+        upload_to="logos", null=True, blank=True, verbose_name="Imagen"
+    )
+    slug = models.SlugField(
+        max_length=255, unique=True, blank=True, verbose_name="Slug"
+    )
 
     class Meta:
         """Meta definition for Product."""

@@ -35,7 +35,6 @@ class ProductCreateView(
 
 
 class ProductListAPI(APIView):
-
     authentication_classes = []
     permission_classes = []
 
